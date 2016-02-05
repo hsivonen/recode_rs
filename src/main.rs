@@ -95,7 +95,7 @@ fn convert_via_utf8(decoder: &mut Decoder,
                             }
                         }
                     }
-                    
+
                     // Now let's see if we should read again or process the
                     // rest of the current input buffer.
                     match decoder_result {
@@ -160,6 +160,11 @@ fn main() {
             std::process::exit(-1);
         }
     };
+
+    if matches.opt_present("h") {
+        print_usage(&program, opts);
+        std::process::exit(0);
+    }
 
     let input_encoding = get_encoding(matches.opt_str("e"));
     let output_encoding = get_encoding(matches.opt_str("g"));
