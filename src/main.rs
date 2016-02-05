@@ -72,27 +72,38 @@ fn convert_via_utf8(decoder: &mut Decoder,
                     // or the input buffer was exhausted, let's process what's
                     // in the intermediate buffer.
 
-                    let mut encoder_input_start = 0usize;
-                    loop {
-                        let (encoder_result, encoder_read, encoder_written, _) = encoder.encode_from_utf8_with_replacement(&intermediate_buffer[encoder_input_start..decoder_written], &mut output_buffer, last_output);
-                        encoder_input_start += encoder_read;
-                        match write.write_all(&output_buffer[..encoder_written]) {
+                    if encoder.encoding() == UTF_8 {
+                        // If the target is UTF-8, optimize out the encoder.
+                        match write.write_all(&intermediate_buffer.as_bytes()[..decoder_written]) {
                             Err(_) => {
                                 print!("Error writing output.");
-                                std::process::exit(-6);
+                                std::process::exit(-7);
                             }
                             Ok(_) => {}
                         }
-                        match encoder_result {
-                            WithReplacementResult::InputEmpty => {
-                                if last_output {
-                                    return;
-                                } else {
-                                    break;
+                    } else {
+                        let mut encoder_input_start = 0usize;
+                        loop {
+                            let (encoder_result, encoder_read, encoder_written, _) = encoder.encode_from_utf8_with_replacement(&intermediate_buffer[encoder_input_start..decoder_written], &mut output_buffer, last_output);
+                            encoder_input_start += encoder_read;
+                            match write.write_all(&output_buffer[..encoder_written]) {
+                                Err(_) => {
+                                    print!("Error writing output.");
+                                    std::process::exit(-6);
                                 }
+                                Ok(_) => {}
                             }
-                            WithReplacementResult::OutputFull => {
-                                continue;
+                            match encoder_result {
+                                WithReplacementResult::InputEmpty => {
+                                    if last_output {
+                                        return;
+                                    } else {
+                                        break;
+                                    }
+                                }
+                                WithReplacementResult::OutputFull => {
+                                    continue;
+                                }
                             }
                         }
                     }
