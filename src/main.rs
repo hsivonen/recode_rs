@@ -33,7 +33,8 @@ fn get_encoding(opt: Option<String>) -> &'static Encoding {
 fn convert_via_utf8(decoder: &mut Decoder,
                     encoder: &mut Encoder,
                     read: &mut Read,
-                    write: &mut Write) {
+                    write: &mut Write,
+                    last: bool) {
     let mut input_buffer = [0u8; 2048];
     let mut intermediate_buffer_bytes = [0u8; 4096];
     // Is there a safe way to create a stack-allocated &mut str?
@@ -41,22 +42,22 @@ fn convert_via_utf8(decoder: &mut Decoder,
         std::mem::transmute(&mut intermediate_buffer_bytes[..])
     };
     let mut output_buffer = [0u8; 4096];
-    loop {
+    let mut current_input_ended = false;
+    while !current_input_ended {
         match read.read(&mut input_buffer) {
             Err(_) => {
                 print!("Error reading input.");
                 std::process::exit(-5);
             }
             Ok(decoder_input_end) => {
-                let input_ended = decoder_input_end == 0;
+                current_input_ended = decoder_input_end == 0;
+                let input_ended = last && current_input_ended;
                 let mut decoder_input_start = 0usize;
-                let mut decoder_output_end = 0usize;
                 loop {
                     let (decoder_result, decoder_read, decoder_written, _) = decoder.decode_to_str_with_replacement(&input_buffer[decoder_input_start..decoder_input_end],
-                                                            &mut intermediate_buffer[decoder_output_end..],
+                                                            &mut intermediate_buffer,
                                                             input_ended);
                     decoder_input_start += decoder_read;
-                    decoder_output_end += decoder_written;
 
                     let last_output = if input_ended {
                         match decoder_result {
@@ -73,7 +74,7 @@ fn convert_via_utf8(decoder: &mut Decoder,
 
                     let mut encoder_input_start = 0usize;
                     loop {
-                        let (encoder_result, encoder_read, encoder_written, _) = encoder.encode_from_utf8_with_replacement(&intermediate_buffer[encoder_input_start..decoder_output_end], &mut output_buffer, last_output);
+                        let (encoder_result, encoder_read, encoder_written, _) = encoder.encode_from_utf8_with_replacement(&intermediate_buffer[encoder_input_start..decoder_written], &mut output_buffer, last_output);
                         encoder_input_start += encoder_read;
                         match write.write_all(&output_buffer[..encoder_written]) {
                             Err(_) => {
@@ -115,7 +116,8 @@ fn convert_via_utf8(decoder: &mut Decoder,
 fn convert_via_utf16(decoder: &mut Decoder,
                      encoder: &mut Encoder,
                      read: &mut Read,
-                     write: &mut Write) {
+                     write: &mut Write,
+                     last: bool) {
 
 }
 
@@ -123,11 +125,12 @@ fn convert(decoder: &mut Decoder,
            encoder: &mut Encoder,
            read: &mut Read,
            write: &mut Write,
+           last: bool,
            use_utf16: bool) {
     if use_utf16 {
-        convert_via_utf16(decoder, encoder, read, write);
+        convert_via_utf16(decoder, encoder, read, write, last);
     } else {
-        convert_via_utf8(decoder, encoder, read, write);
+        convert_via_utf8(decoder, encoder, read, write, last);
     }
 }
 
@@ -190,9 +193,10 @@ fn main() {
                 &mut encoder,
                 &mut std::io::stdin(),
                 &mut output,
+                true,
                 use_utf16);
     } else {
-        let mut iter = matches.free.iter();
+        let mut iter = matches.free.iter().peekable();
         loop {
             match iter.next() {
                 None => {
@@ -205,6 +209,7 @@ fn main() {
                                     &mut encoder,
                                     &mut std::io::stdin(),
                                     &mut output,
+                                    iter.peek().is_none(),
                                     use_utf16);
                         }
                         _ => {
@@ -214,6 +219,7 @@ fn main() {
                                             &mut encoder,
                                             &mut file,
                                             &mut output,
+                                            iter.peek().is_none(),
                                             use_utf16);
                                 }
                                 Err(_) => {
