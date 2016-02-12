@@ -97,9 +97,8 @@ fn convert_via_utf8(decoder: &mut Decoder,
                                 WithReplacementResult::InputEmpty => {
                                     if last_output {
                                         return;
-                                    } else {
-                                        break;
                                     }
+                                    break;
                                 }
                                 WithReplacementResult::OutputFull => {
                                     continue;
