@@ -180,7 +180,7 @@ fn convert_via_utf16(decoder: &mut Decoder,
                         }
                         match encoder_result {
                             WithReplacementResult::InputEmpty => {
-                            	break;
+                                break;
                             }
                             WithReplacementResult::OutputFull => {
                                 continue;
