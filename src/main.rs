@@ -63,15 +63,15 @@ fn convert_via_utf8(decoder: &mut Decoder,
                 let input_ended = last && current_input_ended;
                 let mut decoder_input_start = 0usize;
                 loop {
-                    let (decoder_result, decoder_read, decoder_written, _) = decoder.decode_to_str_with_replacement(&input_buffer[decoder_input_start..decoder_input_end],
+                    let (decoder_result, decoder_read, decoder_written, _) = decoder.decode_to_str(&input_buffer[decoder_input_start..decoder_input_end],
                                                             &mut intermediate_buffer,
                                                             input_ended);
                     decoder_input_start += decoder_read;
 
                     let last_output = if input_ended {
                         match decoder_result {
-                            WithReplacementResult::InputEmpty => true,
-                            WithReplacementResult::OutputFull => false,
+                            CoderResult::InputEmpty => true,
+                            CoderResult::OutputFull => false,
                         }
                     } else {
                         false
@@ -93,7 +93,7 @@ fn convert_via_utf8(decoder: &mut Decoder,
                     } else {
                         let mut encoder_input_start = 0usize;
                         loop {
-                            let (encoder_result, encoder_read, encoder_written, _) = encoder.encode_from_utf8_with_replacement(&intermediate_buffer[encoder_input_start..decoder_written], &mut output_buffer, last_output);
+                            let (encoder_result, encoder_read, encoder_written, _) = encoder.encode_from_utf8(&intermediate_buffer[encoder_input_start..decoder_written], &mut output_buffer, last_output);
                             encoder_input_start += encoder_read;
                             match write.write_all(&output_buffer[..encoder_written]) {
                                 Err(_) => {
@@ -103,10 +103,10 @@ fn convert_via_utf8(decoder: &mut Decoder,
                                 Ok(_) => {}
                             }
                             match encoder_result {
-                                WithReplacementResult::InputEmpty => {
+                                CoderResult::InputEmpty => {
                                     break;
                                 }
-                                WithReplacementResult::OutputFull => {
+                                CoderResult::OutputFull => {
                                     continue;
                                 }
                             }
@@ -116,10 +116,10 @@ fn convert_via_utf8(decoder: &mut Decoder,
                     // Now let's see if we should read again or process the
                     // rest of the current input buffer.
                     match decoder_result {
-                        WithReplacementResult::InputEmpty => {
+                        CoderResult::InputEmpty => {
                             break;
                         }
-                        WithReplacementResult::OutputFull => {
+                        CoderResult::OutputFull => {
                             continue;
                         }
                     }
@@ -149,15 +149,15 @@ fn convert_via_utf16(decoder: &mut Decoder,
                 let input_ended = last && current_input_ended;
                 let mut decoder_input_start = 0usize;
                 loop {
-                    let (decoder_result, decoder_read, decoder_written, _) = decoder.decode_to_utf16_with_replacement(&input_buffer[decoder_input_start..decoder_input_end],
+                    let (decoder_result, decoder_read, decoder_written, _) = decoder.decode_to_utf16(&input_buffer[decoder_input_start..decoder_input_end],
                                                             &mut intermediate_buffer,
                                                             input_ended);
                     decoder_input_start += decoder_read;
 
                     let last_output = if input_ended {
                         match decoder_result {
-                            WithReplacementResult::InputEmpty => true,
-                            WithReplacementResult::OutputFull => false,
+                            CoderResult::InputEmpty => true,
+                            CoderResult::OutputFull => false,
                         }
                     } else {
                         false
@@ -169,7 +169,7 @@ fn convert_via_utf16(decoder: &mut Decoder,
 
                     let mut encoder_input_start = 0usize;
                     loop {
-                        let (encoder_result, encoder_read, encoder_written, _) = encoder.encode_from_utf16_with_replacement(&intermediate_buffer[encoder_input_start..decoder_written], &mut output_buffer, last_output);
+                        let (encoder_result, encoder_read, encoder_written, _) = encoder.encode_from_utf16(&intermediate_buffer[encoder_input_start..decoder_written], &mut output_buffer, last_output);
                         encoder_input_start += encoder_read;
                         match write.write_all(&output_buffer[..encoder_written]) {
                             Err(_) => {
@@ -179,10 +179,10 @@ fn convert_via_utf16(decoder: &mut Decoder,
                             Ok(_) => {}
                         }
                         match encoder_result {
-                            WithReplacementResult::InputEmpty => {
+                            CoderResult::InputEmpty => {
                                 break;
                             }
-                            WithReplacementResult::OutputFull => {
+                            CoderResult::OutputFull => {
                                 continue;
                             }
                         }
@@ -191,10 +191,10 @@ fn convert_via_utf16(decoder: &mut Decoder,
                     // Now let's see if we should read again or process the
                     // rest of the current input buffer.
                     match decoder_result {
-                        WithReplacementResult::InputEmpty => {
+                        CoderResult::InputEmpty => {
                             break;
                         }
-                        WithReplacementResult::OutputFull => {
+                        CoderResult::OutputFull => {
                             continue;
                         }
                     }
