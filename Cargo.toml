@@ -5,4 +5,4 @@ authors = ["Henri Sivonen <hsivonen@hsivonen.fi>"]
 
 [dependencies]
 getopts = "0.2.14"
-encoding_rs = "0.2.1"
+encoding_rs = "0.2.3"
