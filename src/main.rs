@@ -18,7 +18,7 @@ use std::fs::File;
 use std::path::Path;
 
 fn print_usage(program: &str, opts: Options) {
-    let brief = format!("Usage: {} [-e INPUT_ENCODING] [-g OUTPUT_ENCODING] [-o OUTFILE INFILE] \
+    let brief = format!("Usage: {} [-f INPUT_ENCODING] [-t OUTPUT_ENCODING] [-o OUTFILE INFILE] \
                          [...]",
                         program);
     print!("{}", opts.usage(&brief));
@@ -226,12 +226,12 @@ fn main() {
                 "output-file",
                 "set output file name (- for stdout; the default)",
                 "PATH");
-    opts.optopt("e",
-                "input-encoding",
+    opts.optopt("f",
+                "from-code",
                 "set input encoding (defaults to UTF-8)",
                 "LABEL");
-    opts.optopt("g",
-                "output-encoding",
+    opts.optopt("t",
+                "to-code",
                 "set output encoding (defaults to UTF-8)",
                 "LABEL");
     opts.optflag("u",
