@@ -252,8 +252,8 @@ fn main() {
         std::process::exit(0);
     }
 
-    let input_encoding = get_encoding(matches.opt_str("e"));
-    let output_encoding = get_encoding(matches.opt_str("g"));
+    let input_encoding = get_encoding(matches.opt_str("f"));
+    let output_encoding = get_encoding(matches.opt_str("t"));
     let use_utf16 = matches.opt_present("u");
     let mut output = match matches.opt_str("o").as_ref().map(|s| &s[..]) {
         None | Some("-") => Box::new(std::io::stdout()) as Box<Write>,
