@@ -223,7 +223,7 @@ fn main() {
 
     let mut opts = Options::new();
     opts.optopt("o",
-                "output-file",
+                "output",
                 "set output file name (- for stdout; the default)",
                 "PATH");
     opts.optopt("f",
