@@ -3,6 +3,9 @@ name = "recode_rs"
 version = "0.1.0"
 authors = ["Henri Sivonen <hsivonen@hsivonen.fi>"]
 
+[features]
+simd-accel = ["encoding_rs/simd-accel"]
+
 [dependencies]
 getopts = "0.2.14"
-encoding_rs = "0.2.3"
+encoding_rs = "0.3.1"
