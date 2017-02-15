@@ -18,7 +18,7 @@ use std::fs::File;
 use std::path::Path;
 
 fn print_usage(program: &str, opts: Options) {
-    let brief = format!("Usage: {} [-f INPUT_ENCODING] [-t OUTPUT_ENCODING] [-o OUTFILE INFILE] \
+    let brief = format!("Usage: {} [-f INPUT_ENCODING] [-t OUTPUT_ENCODING] [-o OUTFILE] [INFILE] \
                          [...]",
                         program);
     print!("{}", opts.usage(&brief));
