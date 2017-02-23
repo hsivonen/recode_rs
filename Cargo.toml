@@ -1,6 +1,6 @@
 [package]
 name = "recode_rs"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Henri Sivonen <hsivonen@hsivonen.fi>"]
 
 [features]
@@ -10,4 +10,4 @@ parallel-utf8 = ["encoding_rs/parallel-utf8"]
 
 [dependencies]
 getopts = "0.2.14"
-encoding_rs = "0.4.0"
+encoding_rs = "0.5.0"
