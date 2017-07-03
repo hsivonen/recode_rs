@@ -218,8 +218,8 @@ fn convert(decoder: &mut Decoder,
 }
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
-    let program = args[0].clone();
+    let mut args = std::env::args();
+    let program = args.next().unwrap();
 
     let mut opts = Options::new();
     opts.optopt("o",
@@ -239,7 +239,7 @@ fn main() {
                  "use UTF-16 instead of UTF-8 as the intermediate encoding");
     opts.optflag("h", "help", "print usage help");
 
-    let matches = match opts.parse(&args[1..]) {
+    let matches = match opts.parse(args) {
         Ok(m) => m,
         Err(_) => {
             print_usage(&program, opts);
