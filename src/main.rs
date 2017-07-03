@@ -255,11 +255,22 @@ fn main() {
     let input_encoding = get_encoding(matches.opt_str("f"));
     let output_encoding = get_encoding(matches.opt_str("t"));
     let use_utf16 = matches.opt_present("u");
+
+    let mut file;
+    let stdout;
+    let mut stdout_lock;
     let mut output = match matches.opt_str("o").as_ref().map(|s| &s[..]) {
-        None | Some("-") => Box::new(std::io::stdout()) as Box<Write>,
+        None | Some("-") => {
+            stdout = std::io::stdout();
+            stdout_lock = stdout.lock();
+            &mut stdout_lock as &mut Write
+        },
         Some(path_string) => {
             match File::create(&Path::new(path_string)) {
-                Ok(file) => Box::new(file) as Box<Write>,
+                Ok(f) => {
+                    file = f;
+                    &mut file as &mut Write
+                },
                 Err(_) => {
                     print!("Cannot open {} for writing; exiting.", path_string);
                     std::process::exit(-3);
@@ -275,7 +286,7 @@ fn main() {
         convert(&mut decoder,
                 &mut encoder,
                 &mut std::io::stdin(),
-                &mut output,
+                output,
                 true,
                 use_utf16);
     } else {
