@@ -47,9 +47,8 @@ fn convert_via_utf8(decoder: &mut Decoder,
     let mut input_buffer = [0u8; 2048];
     let mut intermediate_buffer_bytes = [0u8; 4096];
     // Is there a safe way to create a stack-allocated &mut str?
-    let mut intermediate_buffer: &mut str = unsafe {
-        std::mem::transmute(&mut intermediate_buffer_bytes[..])
-    };
+    let mut intermediate_buffer: &mut str =
+        unsafe { std::mem::transmute(&mut intermediate_buffer_bytes[..]) };
     let mut output_buffer = [0u8; 4096];
     let mut current_input_ended = false;
     while !current_input_ended {
@@ -63,9 +62,11 @@ fn convert_via_utf8(decoder: &mut Decoder,
                 let input_ended = last && current_input_ended;
                 let mut decoder_input_start = 0usize;
                 loop {
-                    let (decoder_result, decoder_read, decoder_written, _) = decoder.decode_to_str(&input_buffer[decoder_input_start..decoder_input_end],
-                                                            &mut intermediate_buffer,
-                                                            input_ended);
+                    let (decoder_result, decoder_read, decoder_written, _) =
+                        decoder
+                            .decode_to_str(&input_buffer[decoder_input_start..decoder_input_end],
+                                           &mut intermediate_buffer,
+                                           input_ended);
                     decoder_input_start += decoder_read;
 
                     let last_output = if input_ended {
@@ -93,7 +94,11 @@ fn convert_via_utf8(decoder: &mut Decoder,
                     } else {
                         let mut encoder_input_start = 0usize;
                         loop {
-                            let (encoder_result, encoder_read, encoder_written, _) = encoder.encode_from_utf8(&intermediate_buffer[encoder_input_start..decoder_written], &mut output_buffer, last_output);
+                            let (encoder_result, encoder_read, encoder_written, _) =
+                                encoder.encode_from_utf8(&intermediate_buffer[encoder_input_start..
+                                                          decoder_written],
+                                                         &mut output_buffer,
+                                                         last_output);
                             encoder_input_start += encoder_read;
                             match write.write_all(&output_buffer[..encoder_written]) {
                                 Err(_) => {
@@ -149,9 +154,11 @@ fn convert_via_utf16(decoder: &mut Decoder,
                 let input_ended = last && current_input_ended;
                 let mut decoder_input_start = 0usize;
                 loop {
-                    let (decoder_result, decoder_read, decoder_written, _) = decoder.decode_to_utf16(&input_buffer[decoder_input_start..decoder_input_end],
-                                                            &mut intermediate_buffer,
-                                                            input_ended);
+                    let (decoder_result, decoder_read, decoder_written, _) =
+                        decoder
+                            .decode_to_utf16(&input_buffer[decoder_input_start..decoder_input_end],
+                                             &mut intermediate_buffer,
+                                             input_ended);
                     decoder_input_start += decoder_read;
 
                     let last_output = if input_ended {
@@ -169,7 +176,11 @@ fn convert_via_utf16(decoder: &mut Decoder,
 
                     let mut encoder_input_start = 0usize;
                     loop {
-                        let (encoder_result, encoder_read, encoder_written, _) = encoder.encode_from_utf16(&intermediate_buffer[encoder_input_start..decoder_written], &mut output_buffer, last_output);
+                        let (encoder_result, encoder_read, encoder_written, _) =
+                            encoder.encode_from_utf16(&intermediate_buffer[encoder_input_start..
+                                                       decoder_written],
+                                                      &mut output_buffer,
+                                                      last_output);
                         encoder_input_start += encoder_read;
                         match write.write_all(&output_buffer[..encoder_written]) {
                             Err(_) => {
@@ -264,13 +275,13 @@ fn main() {
             stdout = std::io::stdout();
             stdout_lock = stdout.lock();
             &mut stdout_lock as &mut Write
-        },
+        }
         Some(path_string) => {
             match File::create(&Path::new(path_string)) {
                 Ok(f) => {
                     file = f;
                     &mut file as &mut Write
-                },
+                }
                 Err(_) => {
                     print!("Cannot open {} for writing; exiting.", path_string);
                     std::process::exit(-3);
