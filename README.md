@@ -4,7 +4,7 @@
 [![Apache 2 / MIT dual-licensed](https://img.shields.io/badge/license-Apache%202%20%2F%20MIT-blue.svg)](https://github.com/hsivonen/recode_rs/blob/master/COPYRIGHT)
 
 recode_rs is a command-line tool converting between the character encodings
-defined in the Encoding Standard[1].
+defined in the [Encoding Standard][1].
 
 It is written primarily as sample code that demonstrates the use of
 [encoding_rs][2], which is why it has an option for using UTF-16 (as opposed
@@ -62,3 +62,13 @@ recode_rs [-f INPUT_ENCODING] [-t OUTPUT_ENCODING] [-o OUTFILE] [INFILE] [...]
 Please see the file named [COPYRIGHT][1].
 
 [1]: https://github.com/hsivonen/recode_rs/blob/master/COPYRIGHT
+
+## Release notes
+
+### 1.0.4
+
+* Tweak README.
+
+### 1.0.3
+
+* Initial crates.io release.

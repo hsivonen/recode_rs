@@ -1,6 +1,6 @@
 [package]
 name = "recode_rs"
-version = "1.0.3"
+version = "1.0.4"
 authors = ["Henri Sivonen <hsivonen@hsivonen.fi>"]
 description = "Command-line tool for converting between the character encodings defined in the Encoding Standard."
 license = "MIT/Apache-2.0"
