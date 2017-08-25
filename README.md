@@ -39,6 +39,24 @@ With SIMD acceleration on x86, x86_64 and Aarch64 using nightly Rust:
 cargo build --release --features simd-accel
 ```
 
+## Usage
+
+```
+recode_rs [-f INPUT_ENCODING] [-t OUTPUT_ENCODING] [-o OUTFILE] [INFILE] [...]
+```
+
+### Options
+```
+    -o, --output PATH   set output file name (- for stdout; the default)
+    -f, --from-code LABEL
+                        set input encoding (defaults to UTF-8)
+    -t, --to-code LABEL set output encoding (defaults to UTF-8)
+    -u, --utf16-intermediate
+                        use UTF-16 instead of UTF-8 as the intermediate
+                        encoding
+    -h, --help          print usage help
+```
+
 ## Licensing
 
 Please see the file named [COPYRIGHT][1].
