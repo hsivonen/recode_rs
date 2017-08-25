@@ -1,13 +1,12 @@
 [package]
 name = "recode_rs"
-version = "1.0.2"
+version = "1.0.3"
 authors = ["Henri Sivonen <hsivonen@hsivonen.fi>"]
 
 [features]
 simd-accel = ["encoding_rs/simd-accel"]
 no-static-ideograph-encoder-tables = ["encoding_rs/no-static-ideograph-encoder-tables"]
-parallel-utf8 = ["encoding_rs/parallel-utf8"]
 
 [dependencies]
 getopts = "0.2.14"
-encoding_rs = "0.6.11"
+encoding_rs = "0.7.0"
