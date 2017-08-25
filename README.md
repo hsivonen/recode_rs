@@ -27,7 +27,7 @@ With SIMD acceleration on x86, x86_64 and Aarch64 using nightly Rust:
 cargo install recode_rs --features simd-accel
 ```
 
-## Building from a local git clon
+## Building from a local git clone
 
 Using release-channel Rust:
 ```
