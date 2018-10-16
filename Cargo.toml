@@ -1,6 +1,6 @@
 [package]
 name = "recode_rs"
-version = "1.0.4"
+version = "1.0.5"
 authors = ["Henri Sivonen <hsivonen@hsivonen.fi>"]
 description = "Command-line tool for converting between the character encodings defined in the Encoding Standard."
 license = "MIT/Apache-2.0"
@@ -13,11 +13,10 @@ categories = ["text-processing", "encoding", "command-line-utilities"]
 
 [features]
 simd-accel = ["encoding_rs/simd-accel"]
-no-static-ideograph-encoder-tables = ["encoding_rs/no-static-ideograph-encoder-tables"]
 
 [dependencies]
 getopts = "0.2.14"
-encoding_rs = "0.7.0"
+encoding_rs = "0.8.10"
 
 [profile.release]
 lto = true

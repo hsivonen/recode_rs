@@ -22,7 +22,7 @@ Using release-channel Rust:
 cargo install recode_rs
 ```
 
-With SIMD acceleration on x86, x86_64 and Aarch64 using nightly Rust:
+With SIMD acceleration on x86, x86_64 and Aarch64:
 ```
 cargo install recode_rs --features simd-accel
 ```
@@ -34,7 +34,7 @@ Using release-channel Rust:
 cargo build --release
 ```
 
-With SIMD acceleration on x86, x86_64 and Aarch64 using nightly Rust:
+With SIMD acceleration on x86, x86_64 and Aarch64:
 ```
 cargo build --release --features simd-accel
 ```
@@ -64,6 +64,10 @@ Please see the file named [COPYRIGHT][1].
 [1]: https://github.com/hsivonen/recode_rs/blob/master/COPYRIGHT
 
 ## Release notes
+
+### 1.0.5
+
+* Update encoding_rs to 0.8.x.
 
 ### 1.0.4
 
