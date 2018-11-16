@@ -65,6 +65,10 @@ Please see the file named [COPYRIGHT][1].
 
 ## Release notes
 
+### 1.0.6
+
+* Use the `fast-legacy-encode` feature of encoding_rs 0.8.11.
+
 ### 1.0.5
 
 * Update encoding_rs to 0.8.x.
