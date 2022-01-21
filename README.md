@@ -1,6 +1,6 @@
 # recode_rs
 
-[![crates.io](https://meritbadge.herokuapp.com/recode_rs)](https://crates.io/crates/recode_rs)
+[![crates.io](https://img.shields.io/crates/v/recode_rs.svg)](https://crates.io/crates/recode_rs)
 [![Apache 2 / MIT dual-licensed](https://img.shields.io/badge/license-Apache%202%20%2F%20MIT-blue.svg)](https://github.com/hsivonen/recode_rs/blob/master/COPYRIGHT)
 
 recode_rs is a command-line tool converting between the character encodings
@@ -22,7 +22,7 @@ Using release-channel Rust:
 cargo install recode_rs
 ```
 
-With SIMD acceleration on x86, x86_64 and Aarch64:
+With SIMD acceleration on x86, x86_64 and AArch64:
 ```
 cargo install recode_rs --features simd-accel
 ```
@@ -34,7 +34,7 @@ Using release-channel Rust:
 cargo build --release
 ```
 
-With SIMD acceleration on x86, x86_64 and Aarch64:
+With SIMD acceleration on x86, x86_64 and AArch64:
 ```
 cargo build --release --features simd-accel
 ```
@@ -59,9 +59,9 @@ recode_rs [-f INPUT_ENCODING] [-t OUTPUT_ENCODING] [-o OUTFILE] [INFILE] [...]
 
 ## Licensing
 
-Please see the file named [COPYRIGHT][1].
+Please see the file named [COPYRIGHT][3].
 
-[1]: https://github.com/hsivonen/recode_rs/blob/master/COPYRIGHT
+[3]: https://github.com/hsivonen/recode_rs/blob/master/COPYRIGHT
 
 ## Release notes
 
